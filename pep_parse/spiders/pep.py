@@ -4,12 +4,13 @@ from scrapy.http.request import Request
 from scrapy.http.response.html import HtmlResponse
 
 from pep_parse.items import PepParseItem
+from pep_parse.settings import ALLOWED_DOMAINS
 
 
 class PepSpider(scrapy.Spider):
     name = 'pep'
-    allowed_domains = ['peps.python.org']
-    start_urls = ['https://peps.python.org/']
+    allowed_domains = [ALLOWED_DOMAINS]
+    start_urls = [f'https://{ALLOWED_DOMAINS}/']
 
     def parse(self, response: HtmlResponse) -> Request:
         """Парсинг ссылок на PEP docs"""

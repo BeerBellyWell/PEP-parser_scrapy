@@ -1,6 +1,6 @@
 import csv
 
-from pep_parse.settings import NOW_FORMATTED, BASE_DIR
+from pep_parse.settings import NOW_FORMATTED, BASE_DIR, CSV, UTF_8
 
 from pep_parse.items import PepParseItem
 from pep_parse.spiders.pep import PepSpider
@@ -24,9 +24,9 @@ class PepParsePipeline:
 
     def close_spider(self, spider: PepSpider) -> None:
         RESULTS_DIR = BASE_DIR / 'results'
-        FILE_NAME = f'status_summary_{NOW_FORMATTED}.csv'
+        FILE_NAME = f'status_summary_{NOW_FORMATTED}.{CSV}'
         FILE_PATH = RESULTS_DIR / FILE_NAME
-        with open(FILE_PATH, mode='w', encoding='utf-8') as f:
+        with open(FILE_PATH, mode='w', encoding=UTF_8) as f:
             writer = csv.writer(f, dialect='unix')
             writer.writerow(('Статус', 'Количество'))
             for k, v in self.status_summary.items():
