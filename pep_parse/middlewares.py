@@ -1,7 +1,7 @@
 from scrapy import signals, Item
 from scrapy.crawler import Crawler
 from scrapy.http.response.html import HtmlResponse
-from typing import Union
+from typing import Union, Generator
 from scrapy.http.request import Request
 
 from pep_parse.spiders.pep import PepSpider
@@ -10,8 +10,7 @@ from pep_parse.spiders.pep import PepSpider
 class PepParseSpiderMiddleware:
 
     @classmethod
-    def from_crawler(cls: 'PepParseSpiderMiddleware',
-                     crawler: Crawler) -> 'PepParseSpiderMiddleware':
+    def from_crawler(cls, crawler: Crawler) -> 'PepParseSpiderMiddleware':
         s = cls()
         crawler.signals.connect(s.spider_opened, signal=signals.spider_opened)
         return s
@@ -22,7 +21,7 @@ class PepParseSpiderMiddleware:
 
     def process_spider_output(self, response: HtmlResponse,
                               result: Union[Request, Item],
-                              spider: PepSpider) -> Union[Request, Item]:
+                              spider: PepSpider) -> Generator[Request, Item]:
         for i in result:
             yield i
 
@@ -32,7 +31,7 @@ class PepParseSpiderMiddleware:
         pass
 
     def process_start_requests(self, start_requests: Request,
-                               spider: PepSpider) -> Request:
+                               spider: PepSpider) -> Generator[Request, ]:
         for r in start_requests:
             yield r
 
@@ -42,8 +41,7 @@ class PepParseSpiderMiddleware:
 
 class PepParseDownloaderMiddleware:
     @classmethod
-    def from_crawler(cls: 'PepParseDownloaderMiddleware',
-                     crawler: Crawler) -> 'PepParseDownloaderMiddleware':
+    def from_crawler(cls, crawler: Crawler) -> 'PepParseDownloaderMiddleware':
         s = cls()
         crawler.signals.connect(s.spider_opened, signal=signals.spider_opened)
         return s

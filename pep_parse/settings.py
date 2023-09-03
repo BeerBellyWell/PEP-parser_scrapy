@@ -13,8 +13,8 @@ ROBOTSTXT_OBEY = True
 
 
 FEEDS = {
-    'results/pep_%(time)s.csv': {
-        'format': 'csv',
+    f'results/pep_%(time)s.{CSV}': {
+        'format': f'{CSV}',
         'fields': ['number', 'name', 'status'],
         'overwrite': True
     }
