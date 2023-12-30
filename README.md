@@ -15,4 +15,3 @@
     `pip install -r requirements.txt`
 + запускаем парсер
 `scrapy crawl pep`
-Готово
